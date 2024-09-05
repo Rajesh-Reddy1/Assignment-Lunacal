@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Sales Rep Profile</title>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Poppins:wght@500&display=swap"
+		/>
+		<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+		<style>
+			:root {
+				--primary-bg: linear-gradient(180deg, #373e44 -100%, #191b1f 100%);
+				--widget-bg: #363c43;
+				--tab-bg: #28292f;
+				--tab-active-bg: linear-gradient(90deg, rgba(39, 39, 40, 0.1176) 0%, rgba(150, 190, 231, 0.0576) 100%);
+				--text-primary: #ffffff;
+				--text-secondary: #969696;
+				--accent-color: #96bee7;
+			}
+
+			body {
+				background: var(--primary-bg);
+				font-family: "Plus Jakarta Sans", sans-serif;
+				color: var(--text-primary);
+				margin: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+			}
+
+			.container {
+				position: relative;
+				width: 95%;
+				max-width: 1728px;
+				height: 895px;
+				background: var(--primary-bg);
+				box-shadow: 10px 10px 40px 10px rgba(0, 0, 0, 0.5);
+				border-radius: 28px;
+				display: flex;
+			}
+
+			.widget-container {
+				display: flex;
+				flex-direction: column;
+				gap: 37px;
+				position: absolute;
+				right: 29px;
+				top: 96px;
+				margin-bottom: 10px;
+			}
+
+			.widget {
+				background: var(--widget-bg);
+				box-shadow: 5.67px 5.67px 3.78px rgba(0, 0, 0, 0.4);
+				border-radius: 18.8904px;
+				padding: 20px;
+			}
+
+			.about-me-widget {
+				width: 720px;
+				height: 316px;
+			}
+
+			.gallery-widget {
+				width: 720px;
+				height: 320px;
+				padding: 0;
+			}
+
+			.tabs {
+				display: flex;
+				justify-content: center;
+				background: rgb(0, 0, 0);
+				color: #d3d3d3;
+				font-family: sans-serif;
+				padding: 5px 0;
+				margin: 0 auto;
+				width: 90%;
+				border-radius: 24px;
+				align-items: center;
+				margin-left: -10px;
+				position: relative;
+			}
+
+			.tab {
+				display: inline-block;
+				font-size: 18px;
+				font-weight: 500;
+				margin: 0 20px;
+				padding: 10px 20px;
+				border-radius: 5px;
+				cursor: pointer;
+				transition: all 0.3s ease;
+				position: relative;
+				z-index: 1;
+			}
+
+			.tab:hover {
+				background-color: rgba(118, 128, 139, 0.5);
+			}
+
+			.tab.active {
+				background:#292c2e;
+				color: var(--text-primary);
+				font-size: 20px;
+				padding: 12px 50px;
+				border-radius: 20px;
+			}
+
+			.tabs::after {
+				content: '';
+				position: absolute;
+				background: #2b2c2e;
+				border-radius: 12px;
+				transition: all 0.3s ease;
+			}
+
+			.tabs.shift-1::after { left: 0; width: 33.33%; height: 100%; }
+			.tabs.shift-2::after { left: 33.33%; width: 33.33%; height: 100%; }
+			.tabs.shift-3::after { left: 66.66%; width: 33.33%; height: 100%; }
+
+			.about-me-content {
+				display: inline-block;
+				justify-content: center;
+				color: #6b6666;
+				font-family: sans-serif;
+				width: 90%;
+				align-items: center;
+				margin-top: 20px;
+				font-size: 19px;
+			}
+
+			.button {
+				padding: 10px 20px;
+				border: none;
+				border-radius: 20px;
+				font-size: 16px;
+				cursor: pointer;
+				transition: background-color 0.3s, transform 0.2s;
+			}
+
+			.gallery-button {
+				background-color: #000000;
+				font-size: larger;
+				font-weight: bold;
+				color: var(--text-primary);
+				padding: 20% 60%;
+			}
+
+			.add-image-button {
+				background-color: rgba(255, 249, 249, 0.05);
+				color: white;
+				padding: 12px 20px;
+				border-radius: 50px;
+				font-weight: bold;
+				box-shadow: 0px -2px 2px rgba(255, 249, 249, 0.2),
+					0px 2px 2px rgba(255, 249, 249, 0.2);
+				cursor: pointer;
+				align-items: center;
+			}
+
+			.arrow-button {
+				background: linear-gradient(45deg, #2e2f31, #0f1011);
+				color: var(--text-primary);
+				border-radius: 50%;
+				width: 50px;
+				height: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				box-shadow: 0px -4px 4px rgba(167, 203, 209, 0.2),
+					0px 4px 4px rgba(84, 126, 146, 0.2);
+			}
+
+			.arrow-button:hover,
+			.button:hover {
+				background-color: #5a5f65;
+				transform: scale(1.05);
+			}
+
+			.gallery-image {
+				border-radius: 20px;
+				transition: transform 0.3s, box-shadow 0.3s;
+			}
+
+			.gallery-image:hover {
+				transform: scale(1.05) rotate(-6deg) translateY(-5px);
+				box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+			}
+
+			.widget-header {
+				display: flex;
+				align-items: center;
+				margin-bottom: 10px;
+			}
+
+			.question-mark-icon {
+				margin-right: 20px;
+			}
+
+			.line-cont { 
+				border: 2px solid rgb(0, 0, 0); 
+				width: 600px; 
+				margin: 0% auto;
+				border-radius: 20px;
+				box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="widget-container">
+				<div class="widget about-me-widget">
+					<div class="widget-header">
+						<svg class="question-mark-icon" width="30px" height="30px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M0.877075 7.49972C0.877075 3.84204 3.84222 0.876892 7.49991 0.876892C11.1576 0.876892 14.1227 3.84204 14.1227 7.49972C14.1227 11.1574 11.1576 14.1226 7.49991 14.1226C3.84222 14.1226 0.877075 11.1574 0.877075 7.49972ZM7.49991 1.82689C4.36689 1.82689 1.82708 4.36671 1.82708 7.49972C1.82708 10.6327 4.36689 13.1726 7.49991 13.1726C10.6329 13.1726 13.1727 10.6327 13.1727 7.49972C13.1727 4.36671 10.6329 1.82689 7.49991 1.82689ZM8.24993 10.5C8.24993 10.9142 7.91414 11.25 7.49993 11.25C7.08571 11.25 6.74993 10.9142 6.74993 10.5C6.74993 10.0858 7.08571 9.75 7.49993 9.75C7.91414 9.75 8.24993 10.0858 8.24993 10.5ZM6.05003 6.25C6.05003 5.57211 6.63511 4.925 7.50003 4.925C8.36496 4.925 8.95003 5.57211 8.95003 6.25C8.95003 6.74118 8.68002 6.99212 8.21447 7.27494C8.16251 7.30651 8.10258 7.34131 8.03847 7.37854L8.03841 7.37858C7.85521 7.48497 7.63788 7.61119 7.47449 7.73849C7.23214 7.92732 6.95003 8.23198 6.95003 8.7C6.95004 9.00376 7.19628 9.25 7.50004 9.25C7.8024 9.25 8.04778 9.00601 8.05002 8.70417L8.05056 8.7033C8.05924 8.6896 8.08493 8.65735 8.15058 8.6062C8.25207 8.52712 8.36508 8.46163 8.51567 8.37436L8.51571 8.37433C8.59422 8.32883 8.68296 8.27741 8.78559 8.21506C9.32004 7.89038 10.05 7.35382 10.05 6.25C10.05 4.92789 8.93511 3.825 7.50003 3.825C6.06496 3.825 4.95003 4.92789 4.95003 6.25C4.95003 6.55376 5.19628 6.8 5.50003 6.8C5.80379 6.8 6.05003 6.55376 6.05003 6.25Z" fill="url(#silverGrey)"/>
+						</svg>
+						<div class="tabs">
+							<button class="tab active" onclick="setActiveTab(this)">About Me</button>
+							<button class="tab" onclick="setActiveTab(this)">Experiences</button>
+							<button class="tab" onclick="setActiveTab(this)">Recommended</button>
+						</div>
+					</div>
+          <div style="display: inline-block; align-content: center;"><svg style="z-index: 100;" class="flex" width="24" height="31" viewBox="0 0 24 31" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/><rect x="10.6878" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/><rect y="10.6878" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/><rect x="10.6878" y="10.6878" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/><rect y="21.3757" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/><rect x="10.6878" y="21.3757" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/></svg></div><div class="about-me-content" style="display: inline-block; vertical-align: top; margin-left: 10px;">
+						Hello! I'm Dave, your sales rep here from Salesforce.
+						I've been working at this awesome company for 3 years
+						now.
+						<br /><br />
+						I was born and raised in Albany, NY & have been living
+						in Santa Carla for the past 10 years with my wife
+						Tiffany and my 4-year-old twin daughters - Emma and
+						Ella. Both of them are just starting school, so my
+						calendar is usually blocked between 9-10 AM. This is
+						a...
+					</div>
+        </div>
+        <div class="line-cont"></div>
+				<div class="widget gallery-widget" style="padding-right: 20px;">
+					<div class="w-full h-full overflow-hidden">
+						<div class="flex flex-col h-full" >
+							<div
+								class="flex items-center justify-between whitespace-nowrap px-2 py-4" style="margin-left: 10px;"
+							>
+								<div class="flex gap-2">
+                  <div class="flex gap-2">
+                    <svg width="30px" height="30px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="silverGrey" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style="stop-color:#C0C0C0;stop-opacity:1" />
+                          <stop offset="100%" style="stop-color:#808080;stop-opacity:1" />
+                        </linearGradient>
+                      </defs>
+                      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.877075 7.49972C0.877075 3.84204 3.84222 0.876892 7.49991 0.876892C11.1576 0.876892 14.1227 3.84204 14.1227 7.49972C14.1227 11.1574 11.1576 14.1226 7.49991 14.1226C3.84222 14.1226 0.877075 11.1574 0.877075 7.49972ZM7.49991 1.82689C4.36689 1.82689 1.82708 4.36671 1.82708 7.49972C1.82708 10.6327 4.36689 13.1726 7.49991 13.1726C10.6329 13.1726 13.1727 10.6327 13.1727 7.49972C13.1727 4.36671 10.6329 1.82689 7.49991 1.82689ZM8.24993 10.5C8.24993 10.9142 7.91414 11.25 7.49993 11.25C7.08571 11.25 6.74993 10.9142 6.74993 10.5C6.74993 10.0858 7.08571 9.75 7.49993 9.75C7.91414 9.75 8.24993 10.0858 8.24993 10.5ZM6.05003 6.25C6.05003 5.57211 6.63511 4.925 7.50003 4.925C8.36496 4.925 8.95003 5.57211 8.95003 6.25C8.95003 6.74118 8.68002 6.99212 8.21447 7.27494C8.16251 7.30651 8.10258 7.34131 8.03847 7.37854L8.03841 7.37858C7.85521 7.48497 7.63788 7.61119 7.47449 7.73849C7.23214 7.92732 6.95003 8.23198 6.95003 8.7C6.95004 9.00376 7.19628 9.25 7.50004 9.25C7.8024 9.25 8.04778 9.00601 8.05002 8.70417L8.05056 8.7033C8.05924 8.6896 8.08493 8.65735 8.15058 8.6062C8.25207 8.52712 8.36508 8.46163 8.51567 8.37436L8.51571 8.37433C8.59422 8.32883 8.68296 8.27741 8.78559 8.21506C9.32004 7.89038 10.05 7.35382 10.05 6.25C10.05 4.92789 8.93511 3.825 7.50003 3.825C6.06496 3.825 4.95003 4.92789 4.95003 6.25C4.95003 6.55376 5.19628 6.8 5.50003 6.8C5.80379 6.8 6.05003 6.55376 6.05003 6.25Z" fill="url(#silverGrey)"></path>
+                      </g>
+                    </svg>
+                  </div>
+									<button class="button gallery-button">
+										Gallery
+									</button>
+                    
+								</div>
+								<div class="flex justify-end gap-4">
+									<input type="file" id="imageUpload" accept="image/*" style="display: none;">
+									<button class="add-image-button" onclick="document.getElementById('imageUpload').click();">
+										<span class="truncate"
+											><svg
+												xmlns="http://www.w3.org/2000/svg"
+												style="display: inline-block"
+												height="20px"
+												viewBox="0 -960 960 960"
+												width="24px"
+												fill="#e8eaed"
+											>
+												<path
+													d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+												/></svg
+											>ADD IMAGE</span
+										>
+									</button>
+									<button
+										id="scrollLeft"
+										class="arrow-button"
+										style="border: none"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="-05 0 42 32"
+											fill="#ffffff"
+										>
+											<path
+												d="m8.41 15 5.29-5.29-1.41-1.42-7 7a1 1 0 0 0 0 1.41l7 7 1.41-1.41L8.41 17H27v-2z"
+											/>
+										</svg>
+									</button>
+									<button
+										id="scrollRight"
+										class="arrow-button"
+										style="border: none"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="-05 0 42 32"
+											fill="#ffffff"
+										>
+											<path
+												d="m26.71 15.29-7-7-1.42 1.42 5.3 5.29H5v2h18.59l-5.29 5.29 1.41 1.41 7-7a1 1 0 0 0 0-1.41z"
+											/>
+										</svg>
+									</button>
+								</div>
+							</div>
+							<div class="flex" >
+                
+								<div class=" flex justify-center" >
+                  <div class="flex items-center py-8 px-4 h-full" style="z-index: 100; background-color: #363c43;  margin-right: 20px;">
+                    <svg style="z-index: 100;" width="24" height="31" viewBox="0 0 24 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/>
+                      <rect x="10.6878" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/>
+                      <rect y="10.6878" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/>
+                      <rect x="10.6878" y="10.6878" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/>
+                      <rect y="21.3757" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/>
+                      <rect x="10.6878" y="21.3757" width="9.31217" height="9.31217" rx="1.16402" fill="#4A4E54"/>
+                      </svg>
+                  </div>
+									<div
+										id="imageContainer"
+										class="flex gap-8 p-2 transition-transform duration-500 ease-in-out" style="margin: 0% 10px;"
+									>
+										<div class="flex-shrink-0 w-[180px]">
+											<div
+												class="gallery-image w-full bg-center bg-no-repeat aspect-square bg-cover cursor-move"
+												style="
+													background-image: url('https://cdn.usegalileo.ai/sdxl10/d1d36301-fd45-4235-8d14-a9d37ef8c890.png');
+												"
+											></div>
+										</div>
+										<div class="flex-shrink-0 w-[180px]">
+											<div
+												class="gallery-image w-full bg-center bg-no-repeat aspect-square bg-cover cursor-move"
+												style="
+													background-image: url('https://cdn.usegalileo.ai/sdxl10/2836860a-bd38-4ecc-a9b4-1cddf75ebc6e.png');
+												"
+											></div>
+										</div>
+										<div class="flex-shrink-0 w-[180px]">
+											<div
+												class="gallery-image w-full bg-center bg-no-repeat aspect-square bg-cover cursor-move"
+												style="
+													background-image: url('https://cdn.usegalileo.ai/sdxl10/98090474-425d-4a9d-a1f2-aae95ce01756.png');
+												"
+											></div>
+										</div>
+										<div class="flex-shrink-0 w-[180px]">
+											<div
+												class="gallery-image w-full bg-center bg-no-repeat aspect-square bg-cover cursor-move"
+												style="
+													background-image: url('https://cdn.usegalileo.ai/sdxl10/2836860a-bd38-4ecc-a9b4-1cddf75ebc6e.png');
+												"
+											></div>
+										</div>
+										<div class="flex-shrink-0 w-[180px]">
+											<div
+												class="gallery-image w-full bg-center bg-no-repeat aspect-square bg-cover cursor-move"
+												style="
+													background-image: url('https://cdn.usegalileo.ai/sdxl10/98090474-425d-4a9d-a1f2-aae95ce01756.png');
+												"
+											></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+        <div class="line-cont"
+      />
+		</div>
+		<script>
+			const container = document.getElementById("imageContainer");
+			let images = Array.from(container.children);
+			let currentIndex = 0;
+
+			function setActiveTab(tab) {
+				const tabs = document.querySelectorAll('.tab');
+				tabs.forEach(t => t.classList.remove('active'));
+				tab.classList.add('active');
+			}
+
+			function updateGallery() {
+				const imageWidth = 180; // Fixed width for each image
+				const gap = 40;
+				const maxOffset = -(images.length - 3) * (imageWidth + gap);
+				const offset = Math.max(maxOffset, -currentIndex * (imageWidth + gap));
+				container.style.transform = `translateX(${offset}px)`;
+			}
+
+			function scrollImages(direction) {
+				const totalImages = images.length;
+				currentIndex += direction;
+				if (currentIndex < 0) {
+					currentIndex = 0;
+				} else if (currentIndex > totalImages - 3) {
+					currentIndex = totalImages - 3;
+				}
+				updateGallery();
+			}
+
+			document
+				.getElementById("scrollRight")
+				.addEventListener("click", function () {
+					scrollImages(1);
+				});
+
+			document
+				.getElementById("scrollLeft")
+				.addEventListener("click", function () {
+					scrollImages(-1);
+				});
+
+			let touchStartX = 0;
+			let touchEndX = 0;
+
+			container.addEventListener(
+				"touchstart",
+				(e) => {
+					touchStartX = e.changedTouches[0].screenX;
+				},
+				false
+			);
+
+			container.addEventListener(
+				"touchend",
+				(e) => {
+					touchEndX = e.changedTouches[0].screenX;
+					handleSwipe();
+				},
+				false
+			);
+
+			function handleSwipe() {
+				if (touchStartX - touchEndX > 50) {
+					scrollImages(1);
+				}
+				if (touchEndX - touchStartX > 50) {
+					scrollImages(-1);
+				}
+			}
+
+			function setContainerWidth() {
+				const imageWidth = 180; // Fixed width for each image
+				const gap = 24; // 6px gap * 2 sides * 2 gaps
+				container.style.width = `${3 * imageWidth + 2 * gap}px`;
+			}
+
+			function addImage(file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					const div = document.createElement('div');
+					div.className = 'flex-shrink-0 w-[180px]';
+					div.innerHTML = `
+						<div
+							class="gallery-image w-full bg-center bg-no-repeat aspect-square bg-cover cursor-move"
+							style="background-image: url('${e.target.result}');"
+						></div>
+					`;
+					container.insertBefore(div, container.firstChild);
+					images.unshift(div);
+					if (images.length > 5) {
+						container.removeChild(container.lastChild);
+						images.pop();
+					}
+					updateGallery();
+				}
+				reader.readAsDataURL(file);
+			}
+
+			document.getElementById('imageUpload').addEventListener('change', function(event) {
+				const file = event.target.files[0];
+				if (file) {
+					addImage(file);
+				}
+			});
+
+			// Initialize gallery
+			setContainerWidth();
+			updateGallery();
+
+			// Update container width on window resize
+			window.addEventListener("resize", setContainerWidth);
+		</script>
+	</body>
+</html>
